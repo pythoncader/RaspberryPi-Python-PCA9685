@@ -477,3 +477,4 @@ if __name__ == "__main__":
     servo_3 = Servo(2)
     servo_4 = Servo(3, 0, 180)
     four_servos = ServoGroup2((servo_1, servo_2, servo_3, servo_4))
+    four_servos.glide_angle(0, 180, 5)
