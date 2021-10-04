@@ -100,6 +100,25 @@ class Servo:
         if gliding_info_print:
             self.info_print = True
 
+    def vibrate(self, interval=15, delay_amount=3, duration=100):
+        print("vibrate starting...")
+        start_time = time.time()
+        end_time = start_time
+        duration_millis = duration * 1000
+        for i in range(0, 180):
+            self.set_angle(0, 0)
+            time.sleep(delay_amount)
+            self.set_angle(i, 0)
+            time.sleep(delay_amount)
+            i += interval
+            if (end_time - start_time) <= duration_millis:
+                end_time = time.time()
+            else:
+                break
+
+        self.set_angle(0, 0)
+        print("vibrate ending...")
+
 
 class ServoGroup:
     # frequency is the number of pulses per second
