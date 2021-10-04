@@ -17,16 +17,18 @@ servo_frequency = 60
 # Set frequency to 60hz, good for servos.
 pwm.set_pwm_freq(servo_frequency)
 
-def translate(value, leftMin, leftMax, rightMin, rightMax):
+
+def translate(value, left_min, left_max, right_min, right_max):
     # Figure out how 'wide' each range is
-    leftSpan = leftMax - leftMin
-    rightSpan = rightMax - rightMin
+    left_span = left_max - left_min
+    right_span = right_max - right_min
 
     # Convert the left range into a 0-1 range (float)
-    valueScaled = float(value - leftMin) / float(leftSpan)
+    value_scaled = float(value - left_min) / float(left_span)
 
     # Convert the 0-1 range into a value in the right range.
-    return rightMin + (valueScaled * rightSpan)
+    return right_min + (value_scaled * right_span)
+
 
 class Servo:
     # frequency is the number of pulses per second
@@ -53,10 +55,10 @@ class Servo:
 
     def set_angle(self, angle=90, delay_amount=0.3, clock_start=0):
         self.currentAngle = angle
-        if (self.servo_min_bound != 0 or self.servo_max_bound != 180):
-            angle = translate(angle, 0, 180, self.servo_min_bound, self.servo_max_bound);
-            self.currentAngle = angle;
-          
+        if self.servo_min_bound != 0 or self.servo_max_bound != 180:
+            angle = translate(angle, 0, 180, self.servo_min_bound, self.servo_max_bound)
+            self.currentAngle = angle
+
         duty_cycle = angle / 180
         pulse_width = 548 * duty_cycle + 120
         pulse_width = int(pulse_width)
@@ -153,7 +155,7 @@ class ServoGroup2:
         info_print_list = []
         if self.info_print:
             print(f"Setting Servo Group to {angle} and waiting {delay_amount} seconds")
-            
+
         for i in range(0, len(self.list_of_servos)):
             if self.list_of_servos[i].info_print:
                 self.list_of_servos[i].set_info_print(False)
@@ -165,9 +167,8 @@ class ServoGroup2:
             for i in range(0, len(self.list_of_servos)):
                 if i == info_print_list[i]:
                     self.list_of_servos[i].set_info_print(True)
-                
+
         time.sleep(delay_amount)
-        
 
     def glide_angle(self, starting_angle, ending_angle, time_to_take):
         if self.info_print:
@@ -503,9 +504,32 @@ class ServoPumpkin:
 
 
 if __name__ == "__main__":
-    servo_1 = Servo(0, 90, 135)
-    servo_2 = Servo(1)
-    servo_3 = Servo(2)
-    servo_4 = Servo(3, 0, 180)
-    four_servos = ServoGroup2([servo_1, servo_2, servo_3, servo_4])
-    four_servos.glide_angle(0, 180, 5)
+    top_left = Servo(0, 35, 82)
+    top_mid_left = Servo(1, 137, 180)
+    top_mid_right = Servo(2, 35, 84)
+    top_right = Servo(3, 80, 130)
+    bottom_left = Servo(4, 30, 70)
+    bottom_mid_left = Servo(5, 90, 140)
+    bottom_mid_right = Servo(6, 80, 150)
+    bottom_right = Servo(7, 38, 83)
+    pumpkin = ServoPumpkin(top_left, top_mid_left, top_mid_right, top_right,
+                           bottom_left, bottom_mid_left, bottom_mid_right, bottom_right)
+
+    eyes = ServoGroup2(
+        [top_left, top_mid_left, top_mid_right, top_right, bottom_left, bottom_mid_left, bottom_mid_right,
+         bottom_right])
+    while True:
+        pumpkin.vibrate_rounds()
+        pumpkin.random_eyes(15)
+        pumpkin.ladders(1, 0.05)
+        pumpkin.min_max(6, 1)
+        pumpkin.min_max_glide(0.25)
+        pumpkin.rows()
+        pumpkin.half_half()
+        pumpkin.min_max_glide(0.1)
+        pumpkin.look_directions()
+        pumpkin.ladders(10, 0.3)
+        pumpkin.columns()
+        eyes.set_angle(180)
+        eyes.glide_angle(0, 180, 4)
+        pumpkin.ladders(2, 0.1)
