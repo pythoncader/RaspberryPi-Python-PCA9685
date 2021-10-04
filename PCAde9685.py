@@ -56,6 +56,37 @@ class ServoGroup:
             print(f"Setting servos on channels {self.channels} to {self.currentAngle} on clock starting time {clockStart}")
         sleep(time)
 
+class ServoGroup2():
+    def __init__(self, *Servos, infoPrint=True)
+        self.infoPrint = infoPrint
+        self.Servos = Servos
+    
+    def set_angle(self, angle=90, time=1, clockStart=0):
+        for i in self.Servos:
+            i.set_angle(angle, 0, clockStart)
+        sleep(time)
+    
+    def glide_angle(self, startingAngle, endingAngle, timeToTake):
+        if self.infoPrint == True:
+            print(f"Servo on channel {self.channel} gliding from angle {startingAngle} to {endingAngle} in {timeToTake} seconds")
+            self.infoPrint = False
+            glidingInfoPrint = True
+        else:
+            glidingInfoPrint = False
+
+        time_interval = timeToTake/abs((startingAngle - endingAngle))
+        self.set_angle(startingAngle, 0.5)
+        if startingAngle < endingAngle:
+            for i in range(startingAngle+1, endingAngle+1):
+                self.set_angle(i, time_interval)
+        else:
+            neg_angle = startingAngle - 1
+            while neg_angle != endingAngle:
+                neg_angle -= 1
+                self.set_angle(neg_angle, time_interval)
+        if glidingInfoPrint == True:
+            self.infoPrint = True
+
 
 class Servo:
     #frequency is the number of pulses per second
