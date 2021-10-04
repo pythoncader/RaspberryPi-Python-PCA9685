@@ -1,4 +1,4 @@
-from time import sleep, time
+import time
 
 import sys
 # Import the PCA9685 module.
@@ -17,6 +17,16 @@ servo_frequency = 60
 # Set frequency to 60hz, good for servos.
 pwm.set_pwm_freq(servo_frequency)
 
+def translate(value, leftMin, leftMax, rightMin, rightMax):
+    # Figure out how 'wide' each range is
+    leftSpan = leftMax - leftMin
+    rightSpan = rightMax - rightMin
+
+    # Convert the left range into a 0-1 range (float)
+    valueScaled = float(value - leftMin) / float(leftSpan)
+
+    # Convert the 0-1 range into a value in the right range.
+    return rightMin + (valueScaled * rightSpan)
 
 class Servo:
     # frequency is the number of pulses per second
@@ -32,17 +42,21 @@ class Servo:
         self.servo_max_bound = servo_max_bound
         if self.info_print:
             print(
-                f'Initializing Servo on channel :self.channel with range :self.servo_min_bound '
-                f'to :self.servo_max_bound degrees.')
+                f'Initializing Servo on channel {self.channel} with range {self.servo_min_bound} '
+                f'to {self.servo_max_bound} degrees.')
 
     def __str__(self):
-        return f"Servo on channel :self.channel at :self.currentAngle degrees"
+        return f"Servo on channel {self.channel} at {self.currentAngle} degrees"
 
     def set_info_print(self, info_print):
         self.info_print = info_print
 
     def set_angle(self, angle=90, delay_amount=0.3, clock_start=0):
         self.currentAngle = angle
+        if (self.servo_min_bound != 0 or self.servo_max_bound != 180):
+            angle = translate(angle, 0, 180, self.servo_min_bound, self.servo_max_bound);
+            self.currentAngle = angle;
+          
         duty_cycle = angle / 180
         pulse_width = 548 * duty_cycle + 120
         pulse_width = int(pulse_width)
@@ -57,15 +71,15 @@ class Servo:
 
         if self.info_print:
             print(
-                f"Setting Servo on channel :self.channel to :self.currentAngle "
-                f"on clock starting time :clock_start and waiting :time seconds")
-        sleep(delay_amount)
+                f"Setting Servo on channel {self.channel} to {self.currentAngle} "
+                f"on clock starting time {clock_start} and waiting {delay_amount} seconds")
+        time.sleep(delay_amount)
 
     def glide_angle(self, starting_angle, ending_angle, time_to_take):
         if self.info_print:
             print(
-                f"Servo on channel :self.channel gliding from angle :starting_angle to :ending_angle "
-                f"in :time_to_take seconds")
+                f"Servo on channel {self.channel} gliding from angle {starting_angle} to {ending_angle} "
+                f"in {time_to_take} seconds")
             self.info_print = False
             gliding_info_print = True
         else:
@@ -123,25 +137,42 @@ class ServoGroup:
 
         if self.info_print:
             print(
-                f"Setting servos on channels :self.channels to :self.currentAngle "
-                f"on clock starting time :clock_start")
-        sleep(delay_amount)
+                f"Setting servos on channels {self.channels} to {self.currentAngle} "
+                f"on clock starting time {clock_start}")
+        time.sleep(delay_amount)
 
 
 class ServoGroup2:
-    def __init__(self, *Servos, info_print=True):
+    def __init__(self, list_of_servos, info_print=True):
         self.info_print = info_print
-        self.Servos = Servos
+        self.list_of_servos = list_of_servos
+        if self.info_print:
+            print(f"Initiating Servo Group with {len(list_of_servos)} members")
 
     def set_angle(self, angle=90, delay_amount=1.0, clock_start=0):
-        for servo_i in self.Servos:
-            servo_i.set_angle(angle, 0, clock_start)
-        sleep(delay_amount)
+        info_print_list = []
+        if self.info_print:
+            print(f"Setting Servo Group to {angle} and waiting {delay_amount} seconds")
+            
+        for i in range(0, len(self.list_of_servos)):
+            if self.list_of_servos[i].info_print:
+                self.list_of_servos[i].set_info_print(False)
+                info_print_list.append(i)
+            else:
+                info_print_list.append(-1)
+            self.list_of_servos[i].set_angle(angle, 0, clock_start)
+        if self.info_print:
+            for i in range(0, len(self.list_of_servos)):
+                if i == info_print_list[i]:
+                    self.list_of_servos[i].set_info_print(True)
+                
+        time.sleep(delay_amount)
+        
 
     def glide_angle(self, starting_angle, ending_angle, time_to_take):
         if self.info_print:
             print(
-                f"ServoGroup gliding from angle :starting_angle to :ending_angle in :time_to_take seconds")
+                f"ServoGroup gliding from angle {starting_angle} to {ending_angle} in {time_to_take} seconds")
             self.info_print = False
             gliding_info_print = True
         else:
@@ -181,11 +212,11 @@ class ServoPumpkin:
         self.eye5.set_angle(0, 0)
         self.eye6.set_angle(0, 0)
         self.eye7.set_angle(0, 0)
-        sleep(amount_time * 1000)
+        time.sleep(amount_time * 1000)
 
     def random_eyes(self, duration, random_time=200):  # give duration of running in seconds
         print("pumpkin random starting...")
-        start_time = time()
+        start_time = time.time()
         end_time = start_time
         duration_millis = duration * 1000
         while (end_time - start_time) <= duration_millis:
@@ -198,17 +229,17 @@ class ServoPumpkin:
             self.eye6.random_angle(random_time)
             self.eye7.random_angle(random_time)
 
-            end_time = time()
+            end_time = time.time()
 
         print("pumpkin random ending...")
 
     def min_max(self, duration, delay_amount=1):  # give duration of running in seconds
         print("pumpkin min_max starting...")
-        start_time = time()
+        start_time = time.time()
         end_time = start_time
         duration_millis = duration * 1000
         while (end_time - start_time) <= duration_millis:
-            sleep(delay_amount)
+            time.sleep(delay_amount)
             self.eye0.set_angle(0, 0)
             self.eye1.set_angle(0, 0)
             self.eye2.set_angle(0, 0)
@@ -218,7 +249,7 @@ class ServoPumpkin:
             self.eye6.set_angle(180, 0)
             self.eye7.set_angle(180, 0)
 
-            sleep(delay_amount)
+            time.sleep(delay_amount)
 
             self.eye0.set_angle(180, 0)
             self.eye1.set_angle(180, 0)
@@ -229,7 +260,7 @@ class ServoPumpkin:
             self.eye6.set_angle(0, 0)
             self.eye7.set_angle(0, 0)
 
-            end_time = time()
+            end_time = time.time()
 
         print("pumpkin min_max ending...")
 
@@ -246,7 +277,7 @@ class ServoPumpkin:
         self.eye5.glide_angle(0, 180, eye_speed)
         self.eye4.glide_angle(180, 0, eye_speed)
 
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye4.glide_angle(0, 180, eye_speed)
         self.eye5.glide_angle(180, 0, eye_speed)
         self.eye6.glide_angle(180, 0, eye_speed)
@@ -268,20 +299,20 @@ class ServoPumpkin:
         self.eye4.set_angle(0, 0)
         self.eye5.set_angle(180, 0)
 
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         self.eye0.set_angle(180, 0)
         self.eye1.set_angle(180, 0)
         self.eye4.set_angle(180, 0)
         self.eye5.set_angle(0, 0)
 
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye2.set_angle(0, 0)
         self.eye3.set_angle(180, 0)
         self.eye6.set_angle(180, 0)
         self.eye7.set_angle(180, 0)
 
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         self.eye2.set_angle(180, 0)
         self.eye3.set_angle(0, 0)
@@ -298,34 +329,34 @@ class ServoPumpkin:
         # column 1:
         self.eye0.set_angle(0, 0)
         self.eye4.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye0.set_angle(180, 0)
         self.eye4.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         # column 2:
         self.eye1.set_angle(0, 0)
         self.eye5.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye1.set_angle(180, 0)
         self.eye5.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         # column 3:
         self.eye2.set_angle(0, 0)
         self.eye6.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye2.set_angle(180, 0)
         self.eye6.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         # column 4:
         self.eye3.set_angle(180, 0)
         self.eye7.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye3.set_angle(0, 0)
         self.eye7.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         print("columns ending...")
 
@@ -340,12 +371,12 @@ class ServoPumpkin:
         # column 4:
         self.eye3.set_angle(180, 0)
         self.eye7.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye0.set_angle(180, 0)
         self.eye4.set_angle(180, 0)
         self.eye3.set_angle(0, 0)
         self.eye7.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         # column 2:
         self.eye1.set_angle(0, 0)
@@ -353,12 +384,12 @@ class ServoPumpkin:
         # column 3:
         self.eye2.set_angle(0, 0)
         self.eye6.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye1.set_angle(180, 0)
         self.eye5.set_angle(0, 0)
         self.eye2.set_angle(180, 0)
         self.eye6.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         print("columns converging ending...")
 
@@ -372,24 +403,24 @@ class ServoPumpkin:
         self.eye1.set_angle(0, 0)
         self.eye2.set_angle(0, 0)
         self.eye3.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye0.set_angle(180, 0)
         self.eye1.set_angle(180, 0)
         self.eye2.set_angle(180, 0)
         self.eye3.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         # bottom row:
         self.eye4.set_angle(0, 0)
         self.eye5.set_angle(180, 0)
         self.eye6.set_angle(180, 0)
         self.eye7.set_angle(180, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye4.set_angle(180, 0)
         self.eye5.set_angle(0, 0)
         self.eye6.set_angle(0, 0)
         self.eye7.set_angle(0, 0)
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         print("rows ending...")
 
     def look_directions(self, delay_amount=1):
@@ -400,29 +431,29 @@ class ServoPumpkin:
         self.eye5.set_angle(0, 0)  # inward
         self.eye6.set_angle(0, 0)  # outward
         self.eye7.set_angle(0, 0)  # outward
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye4.set_angle(180, 0)  # outward
         self.eye5.set_angle(180, 0)  # outward
         self.eye6.set_angle(180, 0)  # inward
         self.eye7.set_angle(180, 0)  # inward
-        sleep(delay_amount)
+        time.sleep(delay_amount)
 
         # start top halves at same time
         self.eye0.set_angle(0, 0)  # inward
         self.eye1.set_angle(0, 0)  # inward
         self.eye2.set_angle(180, 0)  # outward
         self.eye3.set_angle(180, 0)  # outward
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         self.eye0.set_angle(180, 0)  # outward
         self.eye1.set_angle(180, 0)  # outward
         self.eye2.set_angle(0, 0)  # inward
         self.eye3.set_angle(0, 0)  # inward
-        sleep(delay_amount)
+        time.sleep(delay_amount)
         print("look_directions ending...")
 
     def ladders(self, interval=15, delay_amount=3, duration=100):
         print("ladders starting...")
-        start_time = time()
+        start_time = time.time()
         end_time = start_time
         duration_millis = duration * 1000
         for i in range(0, 181):
@@ -434,7 +465,7 @@ class ServoPumpkin:
             self.eye5.set_angle(0, 0)
             self.eye6.set_angle(0, 0)
             self.eye7.set_angle(0, 0)
-            sleep(delay_amount * 1000)
+            time.sleep(delay_amount * 1000)
             self.eye0.set_angle(i, 0)
             self.eye1.set_angle(i, 0)
             self.eye2.set_angle(i, 0)
@@ -443,10 +474,10 @@ class ServoPumpkin:
             self.eye5.set_angle(i, 0)
             self.eye6.set_angle(i, 0)
             self.eye7.set_angle(i, 0)
-            sleep(delay_amount * 1000)
+            time.sleep(delay_amount * 1000)
             i += interval
             if (end_time - start_time) <= duration_millis:
-                end_time = time()
+                end_time = time.time()
             else:
                 break
 
@@ -476,5 +507,5 @@ if __name__ == "__main__":
     servo_2 = Servo(1)
     servo_3 = Servo(2)
     servo_4 = Servo(3, 0, 180)
-    four_servos = ServoGroup2((servo_1, servo_2, servo_3, servo_4))
+    four_servos = ServoGroup2([servo_1, servo_2, servo_3, servo_4])
     four_servos.glide_angle(0, 180, 5)
