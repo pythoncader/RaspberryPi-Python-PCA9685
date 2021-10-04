@@ -102,7 +102,7 @@ class Servo:
 
     def vibrate(self, interval=15, delay_amount=3, duration=100):
         print("vibrate starting...")
-        start_time = time.time()
+        start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
         for i in range(0, 180):
@@ -112,7 +112,7 @@ class Servo:
             time.sleep(delay_amount)
             i += interval
             if (end_time - start_time) <= duration_millis:
-                end_time = time.time()
+                end_time = time.time() * 1000
             else:
                 break
 
@@ -236,7 +236,7 @@ class ServoPumpkin:
 
     def random_eyes(self, duration, random_time=200):  # give duration of running in seconds
         print("pumpkin random starting...")
-        start_time = time.time()
+        start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
         while (end_time - start_time) <= duration_millis:
@@ -249,13 +249,13 @@ class ServoPumpkin:
             self.eye6.random_angle(random_time)
             self.eye7.random_angle(random_time)
 
-            end_time = time.time()
+            end_time = time.time() * 1000
 
         print("pumpkin random ending...")
 
     def min_max(self, duration, delay_amount=1):  # give duration of running in seconds
         print("pumpkin min_max starting...")
-        start_time = time.time()
+        start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
         while (end_time - start_time) <= duration_millis:
@@ -280,7 +280,7 @@ class ServoPumpkin:
             self.eye6.set_angle(0, 0)
             self.eye7.set_angle(0, 0)
 
-            end_time = time.time()
+            end_time = time.time() * 1000
 
         print("pumpkin min_max ending...")
 
@@ -473,7 +473,7 @@ class ServoPumpkin:
 
     def ladders(self, interval=15, delay_amount=3, duration=100):
         print("ladders starting...")
-        start_time = time.time()
+        start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
         for i in range(0, 181):
@@ -497,7 +497,7 @@ class ServoPumpkin:
             time.sleep(delay_amount * 1000)
             i += interval
             if (end_time - start_time) <= duration_millis:
-                end_time = time.time()
+                end_time = time.time() * 1000
             else:
                 break
 
