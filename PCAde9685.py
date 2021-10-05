@@ -292,7 +292,7 @@ class ServoPumpkin:
     def min_max_glide(self, eye_speed, delay_amount=0.5):
         self.reset_out(4)
         print("pumpkin min_max_glide starting...")
-        if eye_speed > 0.5:
+        if eye_speed >= 0.3:
             self.eye0.glide_angle(180, 0, eye_speed)
             self.eye1.glide_angle(180, 0, eye_speed)
             self.eye2.glide_angle(180, 0, eye_speed)
@@ -569,12 +569,12 @@ if __name__ == "__main__":
     while True:
         # pumpkin.vibrate_rounds()
         # pumpkin.random_eyes(15)
-        pumpkin.ladders(30, 1, 0.05, 3)
-        pumpkin.min_max(6, 1)
-        pumpkin.min_max_glide(0.5, 1)
+        # pumpkin.ladders(30, 1, 0.05, 3)
+        # pumpkin.min_max(6, 1)
+        pumpkin.min_max_glide(0.3, 1)
         pumpkin.rows()
         pumpkin.half_half()
-        pumpkin.min_max_glide(0.2, 0.2)
+        pumpkin.min_max_glide(0.2, 0.4)
         pumpkin.columns_converging()
         pumpkin.look_directions()
         pumpkin.ladders(0, 10, 0.3)
