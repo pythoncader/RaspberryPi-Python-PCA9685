@@ -548,7 +548,7 @@ if __name__ == "__main__":
         pumpkin.random_eyes(15)
         pumpkin.ladders(1, 0.05)
         pumpkin.min_max(6, 1)"""
-        pumpkin.min_max_glide(5)
+        pumpkin.min_max_glide(0.05)
         pumpkin.rows()
         pumpkin.half_half()
         pumpkin.min_max_glide(0.1)
