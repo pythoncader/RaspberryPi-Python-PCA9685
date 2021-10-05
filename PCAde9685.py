@@ -574,7 +574,7 @@ if __name__ == "__main__":
         pumpkin.min_max_glide(0.5, 3)
         pumpkin.rows()
         pumpkin.half_half()
-        pumpkin.min_max_glide(0, 0.2)
+        pumpkin.min_max_glide(0.2, 0.2)
         pumpkin.columns_converging()
         pumpkin.look_directions()
         pumpkin.ladders(0, 20, 0.5)
