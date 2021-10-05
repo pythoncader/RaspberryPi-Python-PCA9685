@@ -567,8 +567,8 @@ if __name__ == "__main__":
         [top_left, top_mid_left, top_mid_right, top_right, bottom_left, bottom_mid_left, bottom_mid_right,
          bottom_right])
     while True:
-        pumpkin.vibrate_rounds()
-        pumpkin.random_eyes(15)
+        # pumpkin.vibrate_rounds()
+        # pumpkin.random_eyes(15)
         pumpkin.ladders(30, 1, 0.05, 3)
         pumpkin.min_max(6, 1)
         pumpkin.min_max_glide(0.5, 3)
