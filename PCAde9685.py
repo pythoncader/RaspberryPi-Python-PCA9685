@@ -545,7 +545,7 @@ if __name__ == "__main__":
          bottom_right])
     while True:
         pumpkin.vibrate_rounds()
-        pumpkin.random_eyes(15)
+        #pumpkin.random_eyes(15)
         pumpkin.ladders(1, 0.05)
         pumpkin.min_max(6, 1)
         pumpkin.min_max_glide(0.05)
