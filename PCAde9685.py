@@ -499,7 +499,9 @@ class ServoPumpkin:
             self.eye6.set_angle(i, 0)
             self.eye7.set_angle(i, 0)
             time.sleep(delay_amount)
+            print(f"delay_amount = {delay_amount}")
             i += interval
+            print(f"i = {i}")
             if (end_time - start_time) <= duration_millis:
                 end_time = time.time() * 1000
             else:
