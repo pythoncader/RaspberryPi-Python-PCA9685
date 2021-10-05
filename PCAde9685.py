@@ -546,7 +546,7 @@ if __name__ == "__main__":
         [top_left, top_mid_left, top_mid_right, top_right, bottom_left, bottom_mid_left, bottom_mid_right,
          bottom_right])
     while True:
-        top_left.glide_angle(0, 180, 0.0003)
+        top_left.glide_angle(0, 180, 0)
         time.sleep(2)
         """pumpkin.vibrate_rounds()
         # pumpkin.random_eyes(15)
