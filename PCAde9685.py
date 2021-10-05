@@ -480,7 +480,8 @@ class ServoPumpkin:
         start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
-        for i in range(0, 181):
+        i = 0
+        while i <= 180:
             self.eye0.set_angle(0, 0)
             self.eye1.set_angle(0, 0)
             self.eye2.set_angle(0, 0)
