@@ -567,16 +567,16 @@ if __name__ == "__main__":
     while True:
         pumpkin.vibrate_rounds()
         pumpkin.random_eyes(15)
-        pumpkin.ladders(30, 1, 0.05, 3)
+        pumpkin.ladders(30, 1, 0.05, 3)  # vibrate all for 1 second
         pumpkin.min_max(6, 1)
-        pumpkin.min_max_glide(0.3, 1)
+        pumpkin.min_max_glide(0.3, 1)  # slow glide
         pumpkin.rows()
         pumpkin.half_half()
-        pumpkin.min_max_glide(0.2, 0.8)
+        pumpkin.min_max_glide(0.2, 0.8)  # fast glide
         pumpkin.columns_converging()
         pumpkin.look_directions()
-        pumpkin.ladders(0, 10, 0.25)
+        pumpkin.ladders(0, 10, 0.25)  # slow ladders
         pumpkin.columns()
-        eyes.set_angle(180)
+        eyes.set_angle(0)
         eyes.glide_angle(0, 180, 1.5)
-        pumpkin.ladders(0, 2, 0.1)
+        pumpkin.ladders(0, 2, 0.1)  # fast ladders
