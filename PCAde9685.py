@@ -475,12 +475,12 @@ class ServoPumpkin:
         time.sleep(delay_amount)
         print("look_directions ending...")
 
-    def ladders(self, interval=15, delay_amount=3.0, duration=100):
+    def ladders(self, start_at, interval=15, delay_amount=3.0, duration=100):
         print("ladders starting...")
         start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
-        i = 0
+        i = start_at
         while i <= 180:
             self.eye0.set_angle(0, 0)
             self.eye1.set_angle(0, 0)
@@ -547,7 +547,7 @@ if __name__ == "__main__":
     while True:
         pumpkin.vibrate_rounds()
         #pumpkin.random_eyes(15)
-        pumpkin.ladders(1, 0.05, 1)
+        pumpkin.ladders(50, 1, 0.05, 1)
         pumpkin.min_max(6, 1)
         pumpkin.min_max_glide(0.03)
         pumpkin.rows()
