@@ -1,6 +1,6 @@
 import time
-
 import sys
+import random
 # Import the PCA9685 module.
 import Adafruit_PCA9685
 
@@ -99,6 +99,10 @@ class Servo:
                 self.set_angle(neg_angle, time_interval)
         if gliding_info_print:
             self.info_print = True
+
+    def random_angle(self, random_time=200):
+        random_time = (random.randint(0, random_time)) / 1000.0
+        self.set_angle(random.randint(0, 180), random_time)
 
     def vibrate(self, interval=15, delay_amount=3, duration=100):
         print("vibrate starting...")
@@ -471,7 +475,7 @@ class ServoPumpkin:
         time.sleep(delay_amount)
         print("look_directions ending...")
 
-    def ladders(self, interval=15, delay_amount=3, duration=100):
+    def ladders(self, interval=15, delay_amount=3.0, duration=100):
         print("ladders starting...")
         start_time = time.time() * 1000
         end_time = start_time
