@@ -104,12 +104,12 @@ class Servo:
         random_time = (random.randint(0, random_time)) / 1000.0
         self.set_angle(random.randint(0, 180), random_time)
 
-    def vibrate(self, interval=15, delay_amount=3, duration=100):
+    def vibrate(self, start_at=0, interval=15, delay_amount=3, duration=100):
         print("vibrate starting...")
         start_time = time.time() * 1000
         end_time = start_time
         duration_millis = duration * 1000
-        for i in range(0, 180):
+        for i in range(start_at, 180):
             self.set_angle(0, 0)
             time.sleep(delay_amount)
             self.set_angle(i, 0)
@@ -519,14 +519,14 @@ class ServoPumpkin:
         print("ladders ending...")
 
     def vibrate_rounds(self):
-        self.eye0.vibrate(1, 0.05, 1)
-        self.eye1.vibrate(1, 0.05, 1)
-        self.eye2.vibrate(1, 0.05, 1)
-        self.eye3.vibrate(1, 0.05, 1)
-        self.eye4.vibrate(1, 0.05, 1)
-        self.eye5.vibrate(1, 0.05, 1)
-        self.eye6.vibrate(1, 0.05, 1)
-        self.eye7.vibrate(1, 0.05, 1)
+        self.eye0.vibrate(50, 1, 0.05, 1)
+        self.eye1.vibrate(50, 1, 0.05, 1)
+        self.eye2.vibrate(50, 1, 0.05, 1)
+        self.eye3.vibrate(50, 1, 0.05, 1)
+        self.eye4.vibrate(50, 1, 0.05, 1)
+        self.eye5.vibrate(50, 1, 0.05, 1)
+        self.eye6.vibrate(50, 1, 0.05, 1)
+        self.eye7.vibrate(50, 1, 0.05, 1)
 
 
 if __name__ == "__main__":
