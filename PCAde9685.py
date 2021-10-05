@@ -36,7 +36,7 @@ class Servo:
     # on: The tick (between 0 and 4095) when the signal should transition from low to high
     # off:the tick (between 0 and 4095) when the signal should transition from high to low
 
-    def __init__(self, channel, servo_min_bound=0, servo_max_bound=180, current_angle="unknown", info_print=True):
+    def __init__(self, channel, servo_min_bound=0, servo_max_bound=180, current_angle="unknown", info_print=False):
         self.channel = channel
         self.currentAngle = current_angle
         self.info_print = info_print
@@ -130,7 +130,7 @@ class ServoGroup:
     # on: The tick (between 0 and 4095) when the signal should transition from low to high
     # off:the tick (between 0 and 4095) when the signal should transition from high to low
 
-    def __init__(self, num_of_servos, *channels, current_angle="unknown", info_print=True):
+    def __init__(self, num_of_servos, *channels, current_angle="unknown", info_print=False):
         self.currentAngle = current_angle
         self.info_print = info_print
         self.num_of_servos = num_of_servos
@@ -168,7 +168,7 @@ class ServoGroup:
 
 
 class ServoGroup2:
-    def __init__(self, list_of_servos, info_print=True):
+    def __init__(self, list_of_servos, info_print=False):
         self.info_print = info_print
         self.list_of_servos = list_of_servos
         if self.info_print:
