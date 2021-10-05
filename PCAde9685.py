@@ -546,7 +546,8 @@ if __name__ == "__main__":
         [top_left, top_mid_left, top_mid_right, top_right, bottom_left, bottom_mid_left, bottom_mid_right,
          bottom_right])
     while True:
-        pumpkin.vibrate_rounds()
+        top_left.glide_angle(0, 180, 0.0003)
+        """pumpkin.vibrate_rounds()
         # pumpkin.random_eyes(15)
         pumpkin.ladders(30, 1, 0.05, 1)
         pumpkin.min_max(6, 1)
@@ -559,4 +560,4 @@ if __name__ == "__main__":
         pumpkin.columns()
         eyes.set_angle(180)
         eyes.glide_angle(0, 180, 4)
-        pumpkin.ladders(0, 2, 0.05)
+        pumpkin.ladders(0, 2, 0.05)"""
