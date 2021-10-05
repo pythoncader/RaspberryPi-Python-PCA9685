@@ -313,14 +313,14 @@ class ServoPumpkin:
             self.eye1.glide_angle(0, 180, eye_speed)
             self.eye0.glide_angle(0, 180, eye_speed)
         else:
-            self.eye0.set_angle(0, eye_speed)
-            self.eye1.set_angle(0, eye_speed)
-            self.eye2.set_angle(0, eye_speed)
-            self.eye3.set_angle(180, eye_speed)
-            self.eye7.set_angle(180, eye_speed)
-            self.eye6.set_angle(180, eye_speed)
-            self.eye5.set_angle(180, eye_speed)
-            self.eye4.set_angle(0, eye_speed)
+            self.eye0.set_angle(0, eye_speed*10)
+            self.eye1.set_angle(0, eye_speed*10)
+            self.eye2.set_angle(0, eye_speed*10)
+            self.eye3.set_angle(180, eye_speed*10)
+            self.eye7.set_angle(180, eye_speed*10)
+            self.eye6.set_angle(180, eye_speed*10)
+            self.eye5.set_angle(180, eye_speed*10)
+            self.eye4.set_angle(0, eye_speed*10)
 
             time.sleep(delay_amount)
 
@@ -541,14 +541,14 @@ class ServoPumpkin:
         print("ladders ending...")
 
     def vibrate_rounds(self):
-        self.eye0.vibrate(50, 1, 0.05, 1)
-        self.eye1.vibrate(50, 1, 0.05, 1)
-        self.eye2.vibrate(50, 1, 0.05, 1)
-        self.eye3.vibrate(50, 1, 0.05, 1)
-        self.eye4.vibrate(50, 1, 0.05, 1)
-        self.eye5.vibrate(50, 1, 0.05, 1)
-        self.eye6.vibrate(50, 1, 0.05, 1)
-        self.eye7.vibrate(50, 1, 0.05, 1)
+        self.eye0.vibrate(30, 1, 0.05, 1)
+        self.eye1.vibrate(30, 1, 0.05, 1)
+        self.eye2.vibrate(30, 1, 0.05, 1)
+        self.eye3.vibrate(30, 1, 0.05, 1)
+        self.eye4.vibrate(30, 1, 0.05, 1)
+        self.eye5.vibrate(30, 1, 0.05, 1)
+        self.eye6.vibrate(30, 1, 0.05, 1)
+        self.eye7.vibrate(30, 1, 0.05, 1)
 
 
 if __name__ == "__main__":
@@ -577,8 +577,8 @@ if __name__ == "__main__":
         pumpkin.min_max_glide(0, 0.2)
         pumpkin.columns_converging()
         pumpkin.look_directions()
-        pumpkin.ladders(0, 10, 0.5)
+        pumpkin.ladders(0, 20, 0.5)
         pumpkin.columns()
         eyes.set_angle(180)
         eyes.glide_angle(0, 180, 2)
-        pumpkin.ladders(0, 2, 0.2)
+        pumpkin.ladders(0, 10, 0.2)
