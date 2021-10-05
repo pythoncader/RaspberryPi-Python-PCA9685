@@ -544,17 +544,17 @@ if __name__ == "__main__":
         [top_left, top_mid_left, top_mid_right, top_right, bottom_left, bottom_mid_left, bottom_mid_right,
          bottom_right])
     while True:
-        """pumpkin.vibrate_rounds()
+        pumpkin.vibrate_rounds()
         pumpkin.random_eyes(15)
         pumpkin.ladders(1, 0.05)
-        pumpkin.min_max(6, 1)"""
+        pumpkin.min_max(6, 1)
         pumpkin.min_max_glide(0.05)
         pumpkin.rows()
         pumpkin.half_half()
-        pumpkin.min_max_glide(0.1)
+        pumpkin.min_max_glide(0.01)
         pumpkin.look_directions()
-        pumpkin.ladders(10, 0.3)
+        pumpkin.ladders(10, 0.1)
         pumpkin.columns()
         eyes.set_angle(180)
         eyes.glide_angle(0, 180, 4)
-        pumpkin.ladders(2, 0.1)
+        pumpkin.ladders(2, 0.05)
