@@ -88,7 +88,7 @@ class Servo:
             gliding_info_print = False
 
         time_interval = time_to_take / abs((starting_angle - ending_angle))
-        print(f"time_interval: {time_interval}")
+
         self.set_angle(starting_angle, 0.5)
         if starting_angle < ending_angle:
             for angle_i in range(starting_angle + 1, ending_angle + 1):
@@ -292,7 +292,6 @@ class ServoPumpkin:
     def min_max_glide(self, eye_speed, delay_amount=1):
         self.reset_out(4)
         print("pumpkin min_max_glide starting...")
-        print(f"eye speed {eye_speed}")
         self.eye0.glide_angle(180, 0, eye_speed)
         self.eye1.glide_angle(180, 0, eye_speed)
         self.eye2.glide_angle(180, 0, eye_speed)
@@ -548,7 +547,7 @@ if __name__ == "__main__":
          bottom_right])
     while True:
         top_left.glide_angle(0, 180, 0)
-        time.sleep(2)
+        top_left.glide_angle(180, 0, 0)
         """pumpkin.vibrate_rounds()
         # pumpkin.random_eyes(15)
         pumpkin.ladders(30, 1, 0.05, 1)
