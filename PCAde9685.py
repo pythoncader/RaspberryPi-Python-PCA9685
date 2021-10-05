@@ -227,7 +227,7 @@ class ServoPumpkin:
         self.eye6 = eye6
         self.eye7 = eye7
 
-    def reset_out(self, amount_time=2):
+    def reset_out(self, delay_amount=2):
         self.eye0.set_angle(180, 0)
         self.eye1.set_angle(180, 0)
         self.eye2.set_angle(180, 0)
@@ -236,7 +236,7 @@ class ServoPumpkin:
         self.eye5.set_angle(0, 0)
         self.eye6.set_angle(0, 0)
         self.eye7.set_angle(0, 0)
-        time.sleep(amount_time * 1000)
+        time.sleep(delay_amount)
 
     def random_eyes(self, duration, random_time=200):  # give duration of running in seconds
         print("pumpkin random starting...")
