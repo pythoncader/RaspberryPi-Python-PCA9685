@@ -289,7 +289,7 @@ class ServoPumpkin:
 
         print("pumpkin min_max ending...")
 
-    def min_max_glide(self, eye_speed, delay_amount=1):
+    def min_max_glide(self, eye_speed, delay_amount=1.0):
         self.reset_out(4)
         print("pumpkin min_max_glide starting...")
         self.eye0.glide_angle(180, 0, eye_speed)
