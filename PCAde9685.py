@@ -88,6 +88,7 @@ class Servo:
             gliding_info_print = False
 
         time_interval = time_to_take / abs((starting_angle - ending_angle))
+        print(f"time_interval: {time_interval}")
         self.set_angle(starting_angle, 0.5)
         if starting_angle < ending_angle:
             for angle_i in range(starting_angle + 1, ending_angle + 1):
