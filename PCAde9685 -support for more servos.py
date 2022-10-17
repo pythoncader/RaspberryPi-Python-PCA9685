@@ -546,6 +546,7 @@ if __name__ == "__main__":
     bottom_mid_left = Servo(5, 90, 140)
     bottom_mid_right = Servo(6, 80, 150)
     bottom_right = Servo(7, 38, 83)
+    #add more servos with channels and bound values if needed, then pass into the ServoPumpkin function
     pumpkin = ServoPumpkin(top_left, top_mid_left, top_mid_right, top_right,
                            bottom_left, bottom_mid_left, bottom_mid_right, bottom_right)
 
